@@ -178,6 +178,29 @@ class AttorneyController extends Controller
     }
 
     /**
+     * Display a search instance of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+
+      if ($request->keyword) {
+        $attorney = new Attorney;
+        $this->list = view('lists.search-attorneys', [
+          'attorneys_approved' => $attorney->search_attorneys($request->keyword),
+          'attorneys_pending' => '',
+          'state' => $request->state,
+        ]);
+      }
+
+      $states = view('forms.search', [ 'states' => CountryState::getStates('US'), 'current_state' => $request->state, 'disallowed_states' => $this->disallowed_states ]);
+
+      // var_dump($states = CountryState::getStates('US'));
+      return view('list', [ 'list' => $this->list, 'banned' => $this->banned, 'states' => $states ] );
+    }
+
+    /**
      * Display approval of the resource.
      *
      * @return \Illuminate\Http\Response

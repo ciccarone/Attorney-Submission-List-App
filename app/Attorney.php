@@ -27,6 +27,22 @@ class Attorney extends Model
     return $attorney;
   }
 
+  static public function search_attorneys($keyword)
+  {
+
+    $attorney = Attorney::where(function($query) use ($keyword)
+    {
+        $query->where('semper_contact', 'like', '%' . $keyword . '%');
+        $query->orWhere('semper_contact_email', 'like', '%' . $keyword . '%');
+        $query->orWhere('company_name', 'like', '%' . $keyword . '%');
+        $query->orWhere('company_contact_name', 'like', '%' . $keyword . '%');
+        $query->orWhere('email', 'like', '%' . $keyword . '%');
+    })
+    ->where('status_id', '=', '2')->get();
+
+    return $attorney;
+  }
+
   static public function retrieve_attorney_name($id)
   {
     $attorney = Attorney::find($id);

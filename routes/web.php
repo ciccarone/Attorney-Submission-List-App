@@ -18,6 +18,8 @@ Route::post('/submit', 'AttorneyController@store')->name('store');
 Route::get('/list/{state?}', 'AttorneyController@list')->name('list');
 Route::post('/list', 'AttorneyController@list')->name('list');
 
+Route::any('/search', 'AttorneyController@search')->name('search');
+
 Route::get('/approve', [ 'middleware' => 'auth', 'uses' => 'AttorneyController@approve' ])->name('approve');
 
 Route::get('/attorney/{id}', [ 'middleware' => 'auth', 'uses' => 'AttorneyController@single' ])->name('single');
